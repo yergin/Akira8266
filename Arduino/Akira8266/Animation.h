@@ -15,7 +15,7 @@ public:
 
   class Transition {
   public:
-    Transition(LedStrip* strip);
+    explicit Transition(LedStrip* strip);
 
     virtual void render() = 0;
     virtual void reset() = 0;
@@ -31,7 +31,7 @@ public:
 
   class Shader {
   public:
-    Shader(LedStrip* strip) : _strip(strip) {}
+    explicit Shader(LedStrip* strip) : _strip(strip) {}
     
     void transitionTo(Animation* animation);
     void jumpTo(Animation* animation);
@@ -46,13 +46,14 @@ public:
     Transition* _transition = 0;
   };
   
-  Animation(LedStrip* strip) : _strip(strip) {}
+  explicit Animation(LedStrip* strip) : _strip(strip) {}
 
   void preBlend();
   void overlay();
   void overwrite();
 
   virtual void render() = 0;
+  virtual void reset() {}
   virtual Transition* transition() const { return 0; }
 
 protected:

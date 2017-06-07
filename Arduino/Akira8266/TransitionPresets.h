@@ -1,21 +1,33 @@
 #pragma once
 
 #include "Animation.h"
+#include "Globals.h"
 
 class LedStrip;
 
-class Blinds : public Animation::Transition
+class FixedLengthTransition : public Animation::Transition {
+public:
+  explicit FixedLengthTransition(unsigned long duration)
+      : Animation::Transition(&Strip), _duration(duration)
+  {}
+
+  void render() override { render(_frame++); }
+  void reset() { _frame = 0; }
+  bool isFinished() const { return _frame >= _duration; }
+
+protected:
+  virtual void render(unsigned long frame) = 0;
+
+private:
+  unsigned long _frame = 0;
+  const unsigned long _duration;
+};
+
+class Blinds : public FixedLengthTransition
 {
 public:
-  Blinds(LedStrip* strip) : Animation::Transition(strip) {}
-
-  void render() { render(_frame++); }
-  void reset() { _frame = 0; }
-  bool isFinished() const { return _frame >= duration(); }
-  unsigned long duration() const { return 40; }
+  Blinds() : FixedLengthTransition(40) {}
   
-private:
-  void render(unsigned long frame);
-  
-  unsigned long _frame = 0;
+protected:
+  void render(unsigned long frame) override;
 };

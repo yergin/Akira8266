@@ -3,7 +3,7 @@
 #include "LedStrip.h"
 
 int Animation::Transition::stripLength() const {
-  return _strip->count();
+  return _strip->length();
 }
 
 uint8_t* Animation::Transition::mask() {
@@ -67,7 +67,7 @@ void Animation::overwrite() {
 }
 
 int Animation::stripLength() const {
-  return _strip->count();
+  return _strip->length();
 }
 
 
@@ -89,19 +89,19 @@ void Animation::writeLed(int led, const CRGB& color) {
 void Animation::writeColor(const CRGB& color) {
   switch (_mode) {
     case PRE_BLEND:
-      for (int i = 0; i < _strip->count(); ++i) {
+      for (int i = 0; i < _strip->length(); ++i) {
         _strip->preBlendLed(i, color);
       }
       break;
 
     case OVERLAY:
-      for (int i = 0; i < _strip->count(); ++i) {
+      for (int i = 0; i < _strip->length(); ++i) {
         _strip->overlayLed(i, color);
       }
       break;
 
     case OVERWRITE:
-      for (int i = 0; i < _strip->count(); ++i) {
+      for (int i = 0; i < _strip->length(); ++i) {
         _strip->overwriteLed(i, color);
       }
   }

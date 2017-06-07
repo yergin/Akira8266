@@ -1,4 +1,5 @@
 #include "Globals.h"
+#include "Config.h"
 #include "AnimationPresets.h"
 
 void setup() {

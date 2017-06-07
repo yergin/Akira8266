@@ -22,6 +22,5 @@ void WaveAnimation::draw(unsigned long frame) {
 }
 
 void StrobeAnimation::draw(unsigned long frame) {
-  frame >>= 1;
   writeColor(frame == 0 ? CRGB::Red : (frame == 1 ? CRGB::Blue : CRGB::Green));
 }

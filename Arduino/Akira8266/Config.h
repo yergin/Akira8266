@@ -17,6 +17,6 @@ constexpr int STATUS_LED_PIN = 2;
 constexpr int LED_STRIP_COUNT = 76;
 constexpr int LED_STRIP_DATA_PIN = 5;
 constexpr int LED_STRIP_CLOCK_PIN = 4;
-constexpr int LED_STRIP_MHZ = 10;
+constexpr int LED_STRIP_MHZ = 20;
 
-constexpr int FPS = 50;
+constexpr int FPS = 100;

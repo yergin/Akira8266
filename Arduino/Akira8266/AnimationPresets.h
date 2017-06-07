@@ -21,26 +21,26 @@ enum ColorPreset {
 };
 
 constexpr uint32_t Colors[] = { 0x5f5f5f, // white
-                          0xff1f1f, // pink
-                          0xff0000, // red
-                          0xff2700, // orange
-                          0xdf7700, // yellow
-                          0x8fcf00, // lime
-                          0x00ff00, // green
-                          0x00cf6f, // aqua
-                          0x0000ff, // blue
-                          0x3f00ff, // violet
-                          0x8f008f, // fuchsia
-                          0xcf005f, // magenta
-                          0x000000, // rainbow / black
-                        };
+                                0xff1f1f, // pink
+                                0xff0000, // red
+                                0xff2700, // orange
+                                0xdf7700, // yellow
+                                0x8fcf00, // lime
+                                0x00ff00, // green
+                                0x00cf6f, // aqua
+                                0x0000ff, // blue
+                                0x3f00ff, // violet
+                                0x8f008f, // fuchsia
+                                0xcf005f, // magenta
+                                0x000000, // rainbow / black
+                              };
 
 class LoopingAnimation : public Animation {
 public:
   LoopingAnimation() : Animation(&Strip) {}
 
-  void render();
-  void reset() { _frame = 0; }
+  void render() override;
+  void reset() override { _frame = 0; }
 
 protected:
   virtual void draw(unsigned long frame) = 0;
@@ -52,13 +52,13 @@ private:
 
 class WaveAnimation : public LoopingAnimation {
 protected:
-  void draw(unsigned long frame);
+  void draw(unsigned long frame) override;
 };
 
 class StrobeAnimation : public LoopingAnimation
 {
 protected:
-  void draw(unsigned long frame);
-  unsigned long duration() const { return 6; }
+  void draw(unsigned long frame) override;
+  unsigned long duration() const override { return 6; }
 };
 

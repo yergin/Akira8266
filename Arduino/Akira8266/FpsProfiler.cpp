@@ -26,8 +26,12 @@ void FpsProfiler::wait() {
     delay(0);
   }
   else {
-    _backgroundProcessTime += delay(_targetPeriod - delta);
+    delay(_targetPeriod - delta);
   }
+}
+
+void FpsProfiler::addBackgroundProcessTime(int ms) {
+  _backgroundProcessTime += ms;
 }
 
 int FpsProfiler::getFps(bool clearDirty) {
@@ -51,9 +55,8 @@ int FpsProfiler::getBackgroundUsage(bool clearDirty) {
   return _backgroundProcessPercentage;
 }
 
-int FpsProfiler::delay(int ms) {
+void FpsProfiler::delay(int ms) {
   ::delay(ms);
-  return 0;
 }
 
 unsigned long FpsProfiler::trackDelta(unsigned long ms) {

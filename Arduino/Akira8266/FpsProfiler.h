@@ -4,7 +4,7 @@ class FpsProfiler {
 public:
   FpsProfiler() {}
   
-  FpsProfiler(int targetFps) : _targetFps(targetFps) {}
+  FpsProfiler(int targetFps) { setTargetFps(targetFps); }
 
   virtual ~FpsProfiler() {}
 
@@ -20,7 +20,9 @@ public:
   bool isDirty() const { return _isDirty; }
 
 protected:
-  virtual int delay(int ms);
+  virtual void delay(int ms);
+  
+  void addBackgroundProcessTime(int ms);
 
 private:
   static constexpr unsigned long ONE_SECOND = 1000ul;
