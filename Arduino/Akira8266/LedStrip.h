@@ -5,7 +5,6 @@
 class LedStrip {
 public:
   virtual ~LedStrip() {}
-  virtual void writeLed(int led, const CRGB& color) = 0;
   virtual void preBlendLed(int led, const CRGB& color) = 0;
   virtual void overlayLed(int led, const CRGB& color) = 0;
   virtual void overwriteLed(int led, const CRGB& color) = 0;

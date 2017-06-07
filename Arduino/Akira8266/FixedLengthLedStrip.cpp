@@ -30,6 +30,6 @@ void FixedLengthLedStrip::overwriteLed(int led, const CRGB& color) {
 
 void FixedLengthLedStrip::writeColor(const CRGB& color) {
   for (int i = 0; i < _length; ++i) {
-    writeLed(i, color);
+    overwriteLed(i, color);
   }
 }

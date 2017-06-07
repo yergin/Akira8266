@@ -7,8 +7,6 @@ public:
   FixedLengthLedStrip(int length);
   ~FixedLengthLedStrip();
 
-  void writeLed(int led, const CRGB& color) override { _buffer[led] = color; }
-  
   void preBlendLed(int led, const CRGB& color) override;
   void overlayLed(int led, const CRGB& color) override;
   void overwriteLed(int led, const CRGB& color) override;

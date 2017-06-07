@@ -15,11 +15,11 @@ public:
 
   class Transition {
   public:
-    explicit Transition(LedStrip* strip);
+    explicit Transition(LedStrip* strip) : _strip(strip) {}
 
     virtual void render() = 0;
     virtual void reset() = 0;
-    virtual bool isFinished() const;
+    virtual bool isFinished() const = 0;
 
   protected:
     int stripLength() const;
@@ -31,19 +31,19 @@ public:
 
   class Shader {
   public:
-    explicit Shader(LedStrip* strip) : _strip(strip) {}
+    explicit Shader(LedStrip* strip);
     
     void transitionTo(Animation* animation);
     void jumpTo(Animation* animation);
     void render();
 
   private:
-    void transitionTo(Animation* animation, Transition* transition);
+    void transitionTo(Animation* animation, Transition& transition);
 
     LedStrip* _strip;
     Animation* _to = 0;
     Animation* _from = 0;
-    Transition* _transition = 0;
+    Transition& _transition;
   };
   
   explicit Animation(LedStrip* strip) : _strip(strip) {}
@@ -54,7 +54,7 @@ public:
 
   virtual void render() = 0;
   virtual void reset() {}
-  virtual Transition* transition() const { return 0; }
+  virtual Transition& transition() const { return NULL_TRANSITION; }
 
 protected:
   void writeLed(int led, const CRGB& color);
@@ -62,6 +62,17 @@ protected:
   int stripLength() const;
 
 private:
+  class NullTransition : public Transition {
+  public:
+    explicit NullTransition() : Animation::Transition(0) {}
+
+    void render() override {}
+    void reset() override {}
+    bool isFinished() const override { return true; }
+  };
+
+  static NullTransition NULL_TRANSITION;
+
   LedStrip* _strip;
   RenderMode _mode = OVERWRITE;
 };

@@ -10,34 +10,38 @@ uint8_t* Animation::Transition::mask() {
   return _strip->mask();
 }
 
+Animation::Shader::Shader(LedStrip* strip)
+    : _strip(strip), _transition(NULL_TRANSITION) {}
+
 void Animation::Shader::jumpTo(Animation* animation) {
-  transitionTo(animation, 0);
+  transitionTo(animation, NULL_TRANSITION);
 }
 
 void Animation::Shader::transitionTo(Animation* animation) {
-  transitionTo(animation, animation ? animation->transition() : 0);
+  transitionTo(animation, animation ? animation->transition() : NULL_TRANSITION);
 }
 
-void Animation::Shader::transitionTo(Animation* animation, Transition* transition) {
+void Animation::Shader::transitionTo(Animation* animation, Transition& transition) {
   if (_from) {
     delete _from;
   }
 
+  _transition = transition;
+  _transition.reset();
+
+  if (_transition.isFinished()) {
+    delete _to;
+    _to = 0;
+  }
+
   _from = _to;
   _to = animation;
-  _transition = transition;
-
-  if (_transition) {
-    _transition->reset();
-  }
 }
 
 void Animation::Shader::render() {
-  if (_transition) {
-    _transition->render();
-  }
+  if (!_transition.isFinished()) {
+    _transition.render();
 
-  if (_transition && !_transition->isFinished()) {
     if (_from) {
       _from->preBlend();
     }
@@ -50,6 +54,8 @@ void Animation::Shader::render() {
     _to->overwrite();
   }
 }
+
+Animation::NullTransition Animation::NULL_TRANSITION;
 
 void Animation::preBlend() {
   _mode = PRE_BLEND;
@@ -69,7 +75,6 @@ void Animation::overwrite() {
 int Animation::stripLength() const {
   return _strip->length();
 }
-
 
 void Animation::writeLed(int led, const CRGB& color) {
   switch (_mode) {
